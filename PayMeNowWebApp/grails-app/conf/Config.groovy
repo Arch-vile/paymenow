@@ -89,3 +89,9 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+
+// For authentication plugin
+grails.validateable.classes = [
+	com.grailsrocks.authentication.SignupForm, 
+	com.grailsrocks.authentication.LoginForm]
