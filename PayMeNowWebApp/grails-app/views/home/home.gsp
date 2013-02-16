@@ -6,17 +6,18 @@
 <title>HOME</title>
 </head>
 <body>
+	
 	<div class="body">
-		This is home.
+		<h1>This is home.</h1>
+  	
+  		<p>You can</p>
+  		<p><g:link controller="login">Login</g:link></p>
+  		<p><g:link controller="login" action="register">Register</g:link></p>
+  		<p><g:link controller="invoice">Make a new invoice without registering</g:link></p>
+  		
   
-		<g:if test="${flash.authenticationFailure}">
-			Login failed: ${message(code:"authentication.failure."+flash.authenticationFailure.result).encodeAsHTML()}
-		</g:if>
-		<auth:form authAction="login" success="[controller:'account']">
-		    User: <g:textField name="login"/><br/>
-		    Password: <input type="password" name="password"/><br/>
-		    <input type="submit" value="Log in"/>
-		</auth:form>
+  
+		
   </div>
 </body>
 </html>

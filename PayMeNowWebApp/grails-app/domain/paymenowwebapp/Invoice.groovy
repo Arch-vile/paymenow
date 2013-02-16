@@ -1,6 +1,6 @@
 package paymenowwebapp
 
-class Payment {
+class Invoice {
 
 	static belongsTo = [bill: Bill]
 	

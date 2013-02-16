@@ -76,6 +76,17 @@ log4j = {
     //appenders {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
+	
+	appenders {
+		file 	name: "fileAppender",
+				maxFileSize: 1024,
+				file: "/home/mravimo/temp/logs/payMeNow.log"
+	}
+	
+	root {
+		error 'stdout', 'fileAppender'
+	}
+	
 
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
            'org.codehaus.groovy.grails.web.pages',          // GSP
@@ -88,6 +99,8 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+		   
+	all		'grails.app.controllers.paymenowwebapp'
 }
 
 
