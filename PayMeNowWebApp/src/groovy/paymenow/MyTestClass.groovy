@@ -1,0 +1,5 @@
+package paymenow
+
+class MyTestClass {
+
+}
