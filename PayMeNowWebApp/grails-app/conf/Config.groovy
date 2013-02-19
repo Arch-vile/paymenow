@@ -100,7 +100,9 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 		   
-	all		'grails.app.controllers.paymenowwebapp'
+	all		'grails.app.services',
+			'grails.app.controllers.paymenowwebapp',
+			'grails.app.conf'
 }
 
 
