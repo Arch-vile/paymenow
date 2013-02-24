@@ -2,29 +2,34 @@ package paymenowwebapp
 
 class LoginController {
 	
-	def authenticationService
+	def userManagementService
 
-    def index() { }
+    def index() { 
+		render(view: "login")
+	}
+	
+	def login() {
+		render(view: "login")
+	}
+	
+	def logout(){
+		def message = "You have successfully logged out"
+		render(view: "/messageViewer", model: [message: message])
+	}
 	
 	
 	def register() { }
 	
 	def newUser() { 
-		log.info("Creating new user! hop!")
-		redirect (controller: "account")
+		log.info("Created new user!")
+		def message = "Verification link has been sent to your email."
+		render(view: "/messageViewer", model: [message: message])
 	}
 	
 	
 	def confirmAccount() {
-		log.info("Confirming account by confirmation code ${params.confirmationCode}")
-		
-		def confirmedEmailAccount = EmailAccount.findByConfirmationCodeAndIsMaster(params.confirmationCode,true)
-		log.info("found email account: " + confirmedEmailAccount)
-		def userId = confirmedEmailAccount.userId;
-		log.info("userId: " + userId)
-		def user = User.get(userId)
-		log.info("User login: " + user.authenticationUserLink)
-		authenticationService.confirmUser(user.authenticationUserLink)
+		userManagementService.confirm(params.confirmationCode, params["login"])
+		redirect (controller: "account")
 	}
 	
 }

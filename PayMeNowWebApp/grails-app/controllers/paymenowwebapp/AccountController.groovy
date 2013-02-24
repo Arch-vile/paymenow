@@ -2,8 +2,11 @@ package paymenowwebapp
 
 class AccountController {
 
+	def authenticationService
+	
     def account() { 
 		
-		log.info("In the account controller")
+		if( !authenticationService.isLoggedIn(request) )
+			chain(controller: "home")
 	}
 }

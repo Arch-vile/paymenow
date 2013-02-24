@@ -14,9 +14,6 @@ class BootStrap {
 		
 		appCtx.authenticationService.events.onSignup = { params ->
 			userManagementService.onNewUser(params.user.login, params.user.email)
-			//myEmailConfirmationService.sendConfirmationTo(user.email)
-			//TODO: implement the confirmation
-			//   appCtx.authenticationService.confirmUser(userToken)
 		}
 		
 		
