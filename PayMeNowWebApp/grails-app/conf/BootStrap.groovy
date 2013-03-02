@@ -16,6 +16,12 @@ class BootStrap {
 			userManagementService.onNewUser(params.user.login, params.user.email)
 		}
 		
+		appCtx.authenticationService.events.onValidateLogin = { loginID -> 
+			def result = loginID ==~ /[a-zA-Z0-9_]*/
+			log.info(result)
+			return result
+		}
+		
 		
     }
     def destroy = {
