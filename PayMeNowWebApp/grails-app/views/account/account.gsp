@@ -7,7 +7,9 @@
 </head>
 <body>
   <div class="body">
-  This is the account page. You are logged in as: <auth:user/> 
+
+
+
   </div>
 </body>
 </html>

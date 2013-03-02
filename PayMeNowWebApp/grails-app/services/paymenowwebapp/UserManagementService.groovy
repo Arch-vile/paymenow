@@ -1,5 +1,6 @@
 package paymenowwebapp
 
+import com.grailsrocks.authentication.AuthenticatedUser
 import grails.validation.ValidationException
 import grails.util.GrailsUtil
 import org.codehaus.groovy.grails.web.util.WebUtils
@@ -25,6 +26,7 @@ class UserManagementService {
 		}
 		
 		def newUser = new User(login: login);
+		//TODO: add confirmation expires date.
 		def masterEmail = new EmailAccount(isMaster: true, email: email, confirmationCode: confirmationCode)
 		newUser.addToEmailAccounts(masterEmail);
 		if(newUser.save(failOnError: true)){ // remove failOnError and write the error handling code
@@ -44,25 +46,40 @@ class UserManagementService {
 		
 	}
 	
+	// TODO: authentication plugin actually is not very secure as it is based only on session id.
+	// bruteforce attack on session id is possible
 	def confirm(confirmationCode, forLogin){
 		log.info("Confirming account by confirmation code: ${confirmationCode} for login: ${forLogin}")
 		
+		if(!confirmationCode || !forLogin){
+			throw new SecurityException("That is not nice! Stop it. 1")
+		}
+		
 		def confirmedEmailAccount = EmailAccount.findByConfirmationCodeAndIsMaster(confirmationCode,true)
 		if(!confirmedEmailAccount){
-			throw new SecurityException("That is not nice! Stop it. 8")
+			throw new SecurityException("That is not nice! Stop it. 2")
 		}
 		
 		log.info("found email account: " + confirmedEmailAccount)
 		
 		if(confirmedEmailAccount.confirmationDate != null)
-			throw new SecurityException("That is not nice! Stop it. 2")
+			throw new SecurityException("That is not nice! Stop it. 3")
 		
 		def user = confirmedEmailAccount.user
 			
 		if(user.login != forLogin)
-			throw new SecurityException("That is not nice! Stop it. 6")
+			throw new SecurityException("That is not nice! Stop it. 4")
 		
 		confirmedEmailAccount.setConfirmationDate(new Date())
 		authenticationService.confirmUser(user.login)
+		
+		//TODO: send email to user that the account is verified
+		
+		// Lets login in the user
+		def authenticationUser = authenticationService.getUser(user.login)
+		authenticationService.logIn(authenticationUser)
+		
 	}
+	
+	
 }

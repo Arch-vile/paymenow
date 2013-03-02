@@ -3,6 +3,7 @@ package paymenowwebapp
 class LoginController {
 	
 	def userManagementService
+	def authenticationService
 
     def index() { 
 		render(view: "login")
@@ -17,8 +18,8 @@ class LoginController {
 		render(view: "/messageViewer", model: [message: message])
 	}
 	
-	
 	def register() { }
+	def errorOnRegister() { }
 	
 	def newUser() { 
 		log.info("Created new user!")
@@ -29,7 +30,7 @@ class LoginController {
 	
 	def confirmAccount() {
 		userManagementService.confirm(params.confirmationCode, params["login"])
-		redirect (controller: "account")
+		render(view: "accountVerified")
 	}
 	
 }
