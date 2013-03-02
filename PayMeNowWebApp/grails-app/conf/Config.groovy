@@ -38,7 +38,8 @@ grails.mime.types = [
 grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
 
 // The default codec used to encode data with ${}
-grails.views.default.codec = "none" // none, html, base64
+// DO NOT CHANGE THE CODEC FROM HTML! Or you need to escape output on each page
+grails.views.default.codec = "html" // none, html, base64
 grails.views.gsp.encoding = "UTF-8"
 grails.converters.encoding = "UTF-8"
 // enable Sitemesh preprocessing of GSP pages
