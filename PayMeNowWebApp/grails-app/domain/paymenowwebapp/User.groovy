@@ -1,6 +1,6 @@
 package paymenowwebapp
 
-import com.grailsrocks.authentication.AuthenticationUser;
+//import com.grailsrocks.authentication.AuthenticationUser;
 
 class User {
 
