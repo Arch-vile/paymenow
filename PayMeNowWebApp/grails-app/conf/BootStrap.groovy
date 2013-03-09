@@ -17,9 +17,7 @@ class BootStrap {
 		}
 		
 		appCtx.authenticationService.events.onValidateLogin = { loginID -> 
-			def result = loginID ==~ /[a-zA-Z0-9_]*/
-			log.info(result)
-			return result
+			return userManagementService.validateLoginIdFormat(loginID)
 		}
 		
 		

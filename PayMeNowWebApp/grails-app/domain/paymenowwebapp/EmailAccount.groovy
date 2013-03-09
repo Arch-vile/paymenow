@@ -11,6 +11,7 @@ class EmailAccount {
 	
     static constraints = {
 		confirmationDate nullable: true
-		confirmationCode unique: true
+		confirmationCode unique: true // security hardening
+		email unique: ['user'] // do not allow same email for same user multiple times
     }
 }

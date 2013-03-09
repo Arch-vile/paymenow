@@ -1,9 +1,10 @@
 package paymenowwebapp
 
+import com.grailsrocks.authentication.SignupForm
+
 class LoginController {
 	
 	def userManagementService
-	def authenticationService
 
     def index() { 
 		render(view: "login")
@@ -18,8 +19,14 @@ class LoginController {
 		render(view: "/messageViewer", model: [message: message])
 	}
 	
-	def register() { }
-	def errorOnRegister() { }
+	def register() {
+		
+		
+	}
+	def errorOnRegister() { 
+		log.info("ERROR ON REGISTER")
+		
+	}
 	
 	def newUser() { 
 		log.info("Created new user!")

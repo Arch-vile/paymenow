@@ -1,15 +1,19 @@
 package paymenowwebapp
 
 class Invoice {
-
-	static belongsTo = [bill: Bill]
 	
-	String assignedTo // email
+	static hasMany = [payments: Payment]
+	
+	String adminUrl
+	String password
+	String alias
 	String description
-	Date paymentDate
-	Date creationDate
-	Double amount
+	String bankAccount
+	String owner // email of the owner
 		
     static constraints = {
+		password nullable: true
+		adminUrl nullable: true
+		alias unique: true, size: 2..100
     }
 }

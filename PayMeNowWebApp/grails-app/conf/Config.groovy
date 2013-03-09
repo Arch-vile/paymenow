@@ -39,7 +39,7 @@ grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
 
 // The default codec used to encode data with ${}
 // DO NOT CHANGE THE CODEC FROM HTML! Or you need to escape output on each page
-grails.views.default.codec = "html" // none, html, base64
+grails.views.default.codec = "HTML" // none, html, base64
 grails.views.gsp.encoding = "UTF-8"
 grails.converters.encoding = "UTF-8"
 // enable Sitemesh preprocessing of GSP pages
@@ -104,12 +104,13 @@ log4j = {
            'net.sf.ehcache.hibernate'
 		   
 	all		'grails.app.services',
-			'grails.app.controllers.paymenowwebapp',
+			'grails.app.controllers',
 			'grails.app.conf'
 }
 
 
-// For authentication plugin
-grails.validateable.classes = [
+// For authentication plugin. Note! Needed for original plugin but for forked it actually disables
+/*grails.validateable.classes = [
 	com.grailsrocks.authentication.SignupForm, 
 	com.grailsrocks.authentication.LoginForm]
+*/

@@ -1,6 +1,8 @@
 package paymenowwebapp
 
 import com.grailsrocks.authentication.AuthenticatedUser
+import com.grailsrocks.authentication.AuthenticationService;
+
 import grails.validation.ValidationException
 import grails.util.GrailsUtil
 import org.codehaus.groovy.grails.web.util.WebUtils
@@ -31,7 +33,7 @@ class UserManagementService {
 		newUser.addToEmailAccounts(masterEmail);
 		if(newUser.save(failOnError: true)){ // remove failOnError and write the error handling code
 			log.info("New user created with master email and confirmation code: " + confirmationCode);
-			def confirmUrl = "http://localhost:8080/PayMeNowWebApp/login/confirmAccount?confirmationCode="+confirmationCode+"&login="+login
+			def confirmUrl = "http://localhost:8080/PayMeNowWebApp/login/confirmAccount?confirmationCode=${confirmationCode}&login=${login}"
 			//TODO: send email 
 			if(GrailsUtil.isDevelopmentEnv()){
 				log.info("Storing confirmation url to request for testing purposes")
@@ -81,5 +83,24 @@ class UserManagementService {
 		
 	}
 	
+
+	def validateLoginIdFormat(loginID){
+		def result = loginID ==~ /[a-zA-Z0-9_]*/
+		return result
+	}
+	
+	def getUser(){
+		return User.findByLogin(authenticationService.getSessionUser().login)
+	}
+
+	def isLoggedIn(request){
+		return authenticationService.isLoggedIn(request)
+	}		
+	
+	def getUserVerifiedEmails(){
+		return getUser().emailAccounts.grep {
+			it.confirmationDate != null
+		}
+	}
 	
 }

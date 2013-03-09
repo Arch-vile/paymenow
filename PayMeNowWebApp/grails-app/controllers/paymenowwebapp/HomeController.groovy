@@ -2,10 +2,10 @@ package paymenowwebapp
 
 class HomeController {
 	
-	def authenticationService
+	def userManagementService
 	
     def home() { 
-		if( authenticationService.isLoggedIn(request) )
+		if( userManagementService.isLoggedIn(request) )
 			chain(controller: "account")
 	}
 }

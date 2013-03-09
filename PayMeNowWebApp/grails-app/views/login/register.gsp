@@ -11,8 +11,13 @@
   <g:if test="${flash.authenticationFailure}">
 	Login failed: ${message(code:"authentication.failure."+flash.authenticationFailure.result).encodeAsHTML()}
 </g:if>
-<auth:form authAction="signup" success="[action:'newUser']" error="[controller:'login', action:'errorOnRegister']">
-    User: <g:textField name="login"/><br/>
+<g:renderErrors bean="${flash.signupForm}">
+    <li>${it}</li>
+</g:renderErrors>
+<auth:form authAction="signup" success="[action:'newUser']">
+    User: <g:textField name="login"/>
+    
+    <br/>
     Email: <input name="email"/><br/>
     Password: <input type="password" name="password"/><br/>
     Confirm Password: <input type="password" name="passwordConfirm"/><br/>

@@ -13,7 +13,7 @@
   		<p>You can</p>
   		<p><g:link controller="login">Login</g:link></p>
   		<p><g:link controller="login" action="register">Register</g:link></p>
-  		<p><g:link controller="invoice">Make a new invoice without registering</g:link></p>
+  		<p><g:link controller="payment">Make a new invoice without registering</g:link></p>
   		
   
   

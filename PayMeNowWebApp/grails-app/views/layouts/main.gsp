@@ -32,8 +32,8 @@
 		<auth:ifNotLoggedIn>
 			<g:link controller="login" action="login">Login</g:link><br/>
 			<g:link controller="login" action="register">Register</g:link>
-			</auth:ifNotLoggedIn>
-		
+			</auth:ifNotLoggedIn><br/>
+		<g:link controller="invoice" action="create">New invoice</g:link>
 		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>
