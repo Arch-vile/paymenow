@@ -17,7 +17,15 @@
   <div style="background-color: #ee5555">
   	Your email accounts:<br/>
   	<g:each in="${emailAccounts}" var="email">
-  		${email.email} [${email.confirmationDate ? 'CONFIRMED' : 'WAITING CONFIRMATION'}]<br/>
+  		${email.email} [${email.confirmationDate ? 'CONFIRMED' : 'WAITING CONFIRMATION'}]
+  		<g:if test="${!email.confirmationDate}">
+  			<g:form action="emailAccountConfirmForm">
+			<g:hiddenField name="email" value="${email.email}"/>  			
+  			<g:submitButton name="Provide confirmation code"/>
+  			</g:form>
+  			
+  		</g:if>
+  		<br/>
   	</g:each>
   	<g:form action="addEmailAccount">
   		Add email account: <g:textField name="emailAddress"/>
