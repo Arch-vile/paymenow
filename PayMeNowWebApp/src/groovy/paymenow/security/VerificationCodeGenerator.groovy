@@ -12,7 +12,7 @@ class VerificationCodeGenerator {
 		random.nextBytes(new byte[512]); // preferred to seed the random securely
 		
 		def code = ""
-		for(i in 0..grailsApplication.config.paymenow.security.confirmationcode.length){
+		for(i in 1..grailsApplication.config.paymenow.security.confirmationcode.length){
 			code += allowedCodeChars.charAt(random.nextInt(allowedCodeChars.length()))
 		}
 		
