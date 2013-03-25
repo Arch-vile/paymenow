@@ -8,6 +8,7 @@ class BootStrap {
 		
 		def appCtx = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext)
 		
+		// <!-- For AuthenticationPlugin
 		appCtx.authenticationService.events.onConfirmAccount= { user ->
 			return true // always require confirmation no matter who it is or what their email address is
 		}
@@ -19,6 +20,7 @@ class BootStrap {
 		appCtx.authenticationService.events.onValidateLogin = { loginID -> 
 			return userManagementService.validateLoginIdFormat(loginID)
 		}
+		//  For AuthenticationPlugin -->
 		
 		
     }
