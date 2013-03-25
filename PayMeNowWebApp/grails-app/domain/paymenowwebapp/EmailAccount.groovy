@@ -1,7 +1,10 @@
 package paymenowwebapp
 
-class EmailAccount {
+import org.codehaus.groovy.grails.exceptions.GrailsException
+import paymenow.domain.DomainViolationException
 
+class EmailAccount {
+	
 	static belongsTo = [user: User]
 	
 	String email
@@ -10,8 +13,24 @@ class EmailAccount {
 	Boolean isMaster
 	
     static constraints = {
+		email email:true, unique: ['user'], blank: false
 		confirmationDate nullable: true
-		confirmationCode unique: true // security hardening
-		email unique: ['user'] // do not allow same email for same user multiple times
-    }
+		confirmationCode unique: true, size: 52..52 // TODO: should use value from config
+	}
+	
+	def beforeValidate() {
+		email = email?.toLowerCase()
+	}
+	
+	
+	def beforeInsert(){
+		EmailAccount.withNewSession {
+			if(isMaster){
+				if(EmailAccount.findAllByUserAndIsMaster(user,true).size() != 0){
+					throw new DomainViolationException('Cannot save. Only one master email allowed.')
+				}
+			}
+		}
+	}
+
 }
