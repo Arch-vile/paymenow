@@ -44,6 +44,10 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
         // runtime 'mysql:mysql-connector-java:5.1.20'
+		
+		// To fix problem with grails 2.2.0 and cobertura plugin
+		// http://jira.grails.org/browse/GPCODECOVERAGE-50
+		test 'net.sourceforge.cobertura:cobertura:1.9.4.1'
     }
 
     plugins {
@@ -61,5 +65,7 @@ grails.project.dependency.resolution = {
         runtime ":database-migration:1.2.1"
 
         compile ':cache:1.0.1'
+		
+		test ":code-coverage:1.2.5"
     }
 }
