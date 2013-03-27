@@ -3,7 +3,7 @@
 // in the classpath in ConfigSlurper format
 
 
-grails.config.locations = [paymenow.PayMeNowConfig] 	
+grails.config.locations = [paymenow.webapp.PayMeNowConfig] 	
 //	 "classpath:${appName}-config.properties",
 //                             "classpath:${appName}-config.groovy",
 //                             "file:${userHome}/.grails/${appName}-config.properties",
