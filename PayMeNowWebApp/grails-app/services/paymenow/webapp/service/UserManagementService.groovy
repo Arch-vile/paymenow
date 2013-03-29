@@ -96,14 +96,6 @@ class UserManagementService {
 		return authenticationService.isLoggedIn(request)
 	}		
 	
-	def getUserVerifiedEmails(){
-		return getUser().emails.grep {
-			it.confirmationDate != null
-		}
-	}
 	
-	def getUserMasterEmail(){
-		return getUserVerifiedEmails().find(){ it.isMaster }
-	}
 	
 }

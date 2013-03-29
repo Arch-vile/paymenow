@@ -13,6 +13,11 @@
   		${flash.message}
   	</div>
   	</g:if>
+  	
+  <g:if test="${flash.confirmUrl != null}">
+  	<a href="${flash.confirmUrl }">Actually as we are in Development mode you can just click me!</a>
+  </g:if>
+  
   
   <div style="background-color: #ee5555">
   	Your email accounts:<br/>
@@ -28,8 +33,8 @@
   		<br/>
   	</g:each>
   	<g:form action="addEmailAccount">
-  		Add email account: <g:textField name="emailAddress"/>
-		<g:submitButton name="Add"/>  		
+  		Add email account: <g:textField name="email" value="${newAccount?.email}"/> 
+		<g:submitButton name="Add"/> <g:renderErrors bean="${newAccount}" />
   	</g:form>
   </div>
   

@@ -9,48 +9,31 @@ class AccountController {
 
 	def verificationCodeGenerator
 	def userManagementService
+	def currentUserService
 	
     def index() { 
 		if( !userManagementService.isLoggedIn(request) )
 			chain(controller: "home")
 			
-		def invoices = Invoice.findAllByOwnerInList(userManagementService.getUserVerifiedEmails().email)
-		def emailAccounts = EmailAccount.findAllByUser(userManagementService.getUser())
-		render(view: "accountIndex", model: [invoices: invoices, emailAccounts: emailAccounts])	
+		def invoices = currentUserService.getOwnedInvoices()
+		def emailAccounts = currentUserService.getEmails()
+		render(view: "accountIndex", model: [invoices: invoices, emailAccounts: emailAccounts, newAccount: chainModel?.newAccount])	
 	}
 	
 	
 	//TODO: check all methods requiring authentication -> redirect login if needed
 	//TODO: check all methods using authenticated user -> handle  session timeout
-	def addEmailAccount(){
-		def emailToAdd = params.emailAddress
-		log.info("Adding email account: ${emailToAdd}")
-
-		if(EmailAccount.findByEmailAndUser(emailToAdd,userManagementService.getUser())){
-			log.info("Email already exists")
-			render(view: "/messageViewer", model: [message: "Email already exists"])
-			return
-		}
-		
-				
-		def verificationCode = verificationCodeGenerator.createCode()
-		def user = userManagementService.getUser()
-		def emailAcc = new EmailAccount(
-			email: emailToAdd,	
-			confirmationCode: verificationCode,	
-			isMaster: false, 
-			user: user)
-		
-		if(emailAcc.save()){
-			// TODO: send confirmation email
-			def login = userManagementService.getUser().login
-			flash.confirmUrl = "http://localhost:8080/PayMeNowWebApp/account/confirmEmailAccount?confirmationCode=${verificationCode}&email=${emailToAdd}&login=${login}"
-			def message = "Verification link for new email account has been sent by email."
-			render(view: "/messageViewer", model: [message: message])
-		}else {
-			// TODO: exception handling
-			log.error("ERROR ")
-		}
+	def addEmailAccount(String email){
+		log.info("Adding email address: ${email}")
+		def newAccount = currentUserService.addEmailAccount(new EmailAccount(email: email))
+		if(newAccount.hasErrors()){
+			log.info("Error adding email account: ${newAccount.email}")
+			chain(action: 'index', model: [newAccount: newAccount])
+		} else {
+			flash.confirmUrl = "http://localhost:8080/PayMeNowWebApp/account/confirmEmailAccount?confirmationCode=${newAccount.confirmationCode}&email=${newAccount.email}&login=${newAccount.user.login}"
+			flash.message = "Verification link for new email account has been sent by email."
+			chain(action: 'index')
+		} 
 	}
 	
 	
