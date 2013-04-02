@@ -1,5 +1,6 @@
 package paymenow.webapp.controller
 
+import com.grailsrocks.authentication.LoginForm
 import com.grailsrocks.authentication.SignupForm
 
 class LoginController {
@@ -39,5 +40,23 @@ class LoginController {
 		userManagementService.confirm(params.confirmationCode, params["login"])
 		render(view: "accountVerified")
 	}
+
 	
+	def viaLogin(){
+		
+		//[controller: 'account', action: 'confirmEmailAccount', params: [login: login, confirmationCode: confirmationCode, email: email]],'You need to login to confirm email account')){
+		
+		// To preset the login name on the login form
+		def loginForm = new LoginForm(login: chainModel.loginSuccessURL.params.login) //TODO: not clean. find better way to resupply the login for the login form without creating coupling with authentication moduele
+		flash.loginForm = loginForm
+		//commands the authentication plugin
+		// TODO: will not work if user fails to login on first try. need propably fix on the authentication plugin
+		flash.authSuccessURL = chainModel.loginSuccessURL
+		flash.message = chainModel.loginMessage
+		forward controller: 'login' // Need to forward for the flash to survive for the authentication plugin controller
+		return true
+	
+		
+	}
+		
 }

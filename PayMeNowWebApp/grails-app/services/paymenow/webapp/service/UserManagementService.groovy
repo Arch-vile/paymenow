@@ -2,6 +2,7 @@ package paymenow.webapp.service
 
 import com.grailsrocks.authentication.AuthenticatedUser
 import com.grailsrocks.authentication.AuthenticationService;
+import com.grailsrocks.authentication.LoginForm
 
 import grails.validation.ValidationException
 import grails.util.GrailsUtil
@@ -97,5 +98,6 @@ class UserManagementService {
 	}		
 	
 	
+
 	
 }

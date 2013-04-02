@@ -1,5 +1,6 @@
 package paymenow.webapp.controller
 
+import paymenow.webapp.domain.DomainViolationException
 import paymenow.webapp.domain.EmailAccount;
 import paymenow.webapp.domain.Invoice;
 
@@ -39,50 +40,26 @@ class AccountController {
 	
 	// TODO: are you allowed to confirm if not logged in. not. but then this needs to redirect to authenticate and then back.
 	// TODO: too much logic in controller! move to service
-	def confirmEmailAccount(){
-		def emailToConfirm = params.email
-		def confirmationCode = params.confirmationCode
-		def login = params.login
-		log.info("Confirming emailaccount for login[${login}] email[${emailToConfirm}] and confirmationCode[${confirmationCode}]")
+	def confirmEmailAccount(String email, String confirmationCode, String login){
+		log.info("Confirming emailaccount for login[${login}] email[${email}] and confirmationCode[${confirmationCode}]")
 		
-		// Needs to be logged in 
 		if(!userManagementService.isLoggedIn(request)){
-			// To preset the login name on the login form
-			def loginForm = new LoginForm(login: login) //TODO: not clean. find better way to resupply the login for the login form without creating coupling with authentication moduele
-			flash.loginForm = loginForm
-			//commands the authentication plugin
-			// TODO: will not work if user fails to login on first try. need propably fix on the authentication plugin
-			flash.authSuccessURL = [controller: 'account', action: 'confirmEmailAccount', params: [login: login, confirmationCode: confirmationCode, email: emailToConfirm]] 
-			
-			flash.message = 'You need to login to confirm new email account'
-			forward controller: 'login' // Need to forward for the flash to survive for the authentication plugin controller
+			def loginSuccessURL = [controller: 'account', action: 'confirmEmailAccount', params: [login: login, confirmationCode: confirmationCode, email: email]]
+			chain(controller: 'login', action: 'viaLogin', model: [loginSuccessURL: loginSuccessURL, loginMessage: 'You need to login to confirm email account'])
 			return
 		}
 		
+		/*if(userManagementService.routeLogin(request, flash, login, [controller: 'account', action: 'confirmEmailAccount', params: [login: login, confirmationCode: confirmationCode, email: email]],'You need to login to confirm email account')){
+			return
+		}*/
 		
-		if(!login || !confirmationCode){
-			throw new SecurityException("Not nice: 9")
-		}
-		
-		def forUser = userManagementService.getUser()
-		if(forUser.login != login){
-			throw new SecurityException("Not nice: 8")
-		}
-		
-		def emailAccountToConfirm = EmailAccount.findByConfirmationCodeAndUserAndEmailAndConfirmationDate(confirmationCode,forUser,emailToConfirm,null)
-
-		if(!emailAccountToConfirm){
-			throw new SecurityException("Not nice: 8s")
-		}
-
-		emailAccountToConfirm.confirmationDate = new Date();
-		if(emailAccountToConfirm.save()){
-			log.info("Email account verified")
-			flash.message = "New email account verified"
-			chain(action: "index")
-			
+		def confirmedEmailAccount = currentUserService.confirmEmailAccount(email, confirmationCode, login)
+		if(confirmedEmailAccount.hasErrors()){
+			throw new DomainViolationException("Cannot confirm email account")
 		}else {
-			//TODO: error handling
+			log.info("Email account verified")
+			flash.message = "Email account verified"
+			chain(action: "index")
 		}	
 	}
 	

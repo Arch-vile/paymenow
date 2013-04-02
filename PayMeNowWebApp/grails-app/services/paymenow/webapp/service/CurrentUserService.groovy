@@ -47,4 +47,25 @@ class CurrentUserService {
 
 	}
 	
+	def confirmEmailAccount(String email, String confirmationCode, String login){
+		if(!login || !confirmationCode){
+			throw new SecurityException("Not nice: 9")
+		}
+		
+		def forUser = getUser()
+		if(forUser.login != login){
+			throw new SecurityException("Not nice: 8")
+		}
+		
+		def emailAccountToConfirm = EmailAccount.findByConfirmationCodeAndUserAndEmailAndConfirmationDate(confirmationCode,forUser,email,null)
+
+		if(!emailAccountToConfirm){
+			throw new SecurityException("Not nice: 8s")
+		}
+
+		emailAccountToConfirm.confirmationDate = new Date();
+		emailAccountToConfirm.save()
+		return emailAccountToConfirm
+	}
+	
 }
