@@ -13,12 +13,14 @@ class AccountController {
 	def currentUserService
 	
     def index() { 
-		if( !userManagementService.isLoggedIn(request) )
+		if( !userManagementService.isLoggedIn(request) ){
 			chain(controller: "home")
-			
-		def invoices = currentUserService.getOwnedInvoices()
-		def emailAccounts = currentUserService.getEmails()
-		render(view: "accountIndex", model: [invoices: invoices, emailAccounts: emailAccounts, newAccount: chainModel?.newAccount])	
+		}else {
+			def invoices = currentUserService.getOwnedInvoices()
+			def emailAccounts = currentUserService.getEmails()
+			render(view: "accountIndex", model: [invoices: invoices, emailAccounts: emailAccounts, newAccount: chainModel?.newAccount])
+		}	
+		
 	}
 	
 	
@@ -48,10 +50,6 @@ class AccountController {
 			chain(controller: 'login', action: 'viaLogin', model: [loginSuccessURL: loginSuccessURL, loginMessage: 'You need to login to confirm email account'])
 			return
 		}
-		
-		/*if(userManagementService.routeLogin(request, flash, login, [controller: 'account', action: 'confirmEmailAccount', params: [login: login, confirmationCode: confirmationCode, email: email]],'You need to login to confirm email account')){
-			return
-		}*/
 		
 		def confirmedEmailAccount = currentUserService.confirmEmailAccount(email, confirmationCode, login)
 		if(confirmedEmailAccount.hasErrors()){
