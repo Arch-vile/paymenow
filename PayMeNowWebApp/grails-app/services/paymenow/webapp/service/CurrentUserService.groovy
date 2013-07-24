@@ -7,21 +7,23 @@ class CurrentUserService {
 
 	def userManagementService
 	def verificationCodeGenerator
+	def domainService
 	
 	def getUser(){
 		return userManagementService.getUser()
 	}
 	
 	def getUserMasterEmail(){
-		return getUserVerifiedEmails().find(){ it.isMaster }
+		return getUserVerifiedEmails().find(){ it.isMaster } 
 	}
 	
     def getOwnedInvoices() {
-		return Invoice.findAllByOwnerInList(getUserVerifiedEmails().email)
+		return domainService.getInvoicesByOwners(getUserVerifiedEmails().email)
+		//return Invoice.findAllByOwnerInList(getUserVerifiedEmails().email)
     }
 	
 	def getEmails(){
-		return getUser().emails
+		return getUser().getEmails()
 	}
 	
 	def getUserVerifiedEmails(){
