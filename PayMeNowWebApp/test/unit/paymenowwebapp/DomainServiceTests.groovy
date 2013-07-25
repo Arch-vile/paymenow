@@ -14,6 +14,6 @@ import paymenow.webapp.service.DomainService;
 class DomainServiceTests {
 
     void testSomething() {
-        fail "Implement me"
+        
     }
 }

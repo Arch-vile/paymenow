@@ -8,7 +8,8 @@ import org.junit.*
 import paymenow.webapp.domain.EmailAccount;
 
 /**
- * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
+ * It seems that all constraints tests should be done as integration tests. Trying to run them
+ * as unit tests is hard and in some cases (e.g. unique by some other fields)
  */
 @TestFor(EmailAccount)
 class EmailAccountUnitTests {
@@ -69,15 +70,6 @@ class EmailAccountUnitTests {
 		assert "blank"== emailAcc.errors.getFieldError("email").code
 	}
 	
-	void testFailUniqueEmailsPerUser(){
-		def first = new EmailAccount(email: "john.doe@gmail.com", confirmationCode: validCode, isMaster: true, user: 1)
-		def second = new EmailAccount(email: "john.DOE@gmail.com", confirmationCode: validCode2, isMaster: false, user: 1)
-		mockForConstraintsTests(EmailAccount, [first, second])
-		assert first.save()
-		assert !second.save()
-		assert !second.validate()
-		assert 1 == second.errors.errorCount
-		assert "unique"== second.errors.getFieldError("email").code
-	}
+	
 	
 }
