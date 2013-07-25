@@ -6,11 +6,12 @@ class Payment {
 	
 	String assignedTo // email TODO: force lowercase
 	String description
-	Date paymentDate
-	Date creationDate
+	Date paid
+	Date created
 	Double amount
 		
     static constraints = {
-		paymentDate nullable: true
+		paid nullable: true
     }
+	
 }
