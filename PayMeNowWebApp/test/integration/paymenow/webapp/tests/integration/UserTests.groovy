@@ -5,7 +5,7 @@ import org.junit.*
 import paymenow.webapp.domain.EmailAccount
 import paymenow.webapp.domain.User
 
-class UserIntegrationTests {
+class UserTests {
 
     @Before
     void setUp() {

@@ -1,4 +1,4 @@
-package paymenow.webapp.service
+package paymenow.webapp.tests.unit
 
 
 
@@ -6,6 +6,9 @@ import grails.test.mixin.*
 import org.junit.*
 import paymenow.webapp.domain.EmailAccount
 import paymenow.webapp.domain.User
+import paymenow.webapp.service.CurrentUserService;
+import paymenow.webapp.service.DomainService;
+import paymenow.webapp.service.UserManagementService;
 import grails.test.mixin.domain.DomainClassUnitTestMixin
 
 /**
@@ -14,7 +17,7 @@ import grails.test.mixin.domain.DomainClassUnitTestMixin
 @TestFor(CurrentUserService)
 @Mock([UserManagementService, DomainService])
 @TestMixin(DomainClassUnitTestMixin)
-class CurrentUserServiceTests {
+class CurrentUserServiceUnitTests {
 	
 	def confirmCode1 = "ddgjajds8843hsf83rhlsflkdsjf09w4hjwflidsfwhlfds939f1"
 	def confirmCode2 = "ddgjajds8843hsf83rhlsflkdsjf09w4hjwflidsfwhlfds939f2"

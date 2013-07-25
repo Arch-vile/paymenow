@@ -6,7 +6,7 @@ import paymenow.webapp.domain.EmailAccount
 import paymenow.webapp.domain.User
 import paymenow.webapp.domain.DomainViolationException
 
-class EmailAccountIntegrationTests {
+class EmailAccountTests {
 	
 	def fixtureLoader
 	def fixture
