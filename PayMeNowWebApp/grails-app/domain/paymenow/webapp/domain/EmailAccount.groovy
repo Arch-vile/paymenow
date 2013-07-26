@@ -15,22 +15,16 @@ class EmailAccount {
     static constraints = {
 		email email:true, unique: ['user'], blank: false
 		confirmationDate nullable: true
-		confirmationCode unique: true, size: 52..52 // TODO: should use value from config
-	}
-	
-	def beforeValidate() {
-		email = email?.toLowerCase()
-	}
-	
-	
-	def beforeInsert(){
-		EmailAccount.withNewSession {
-			if(isMaster){
-				if(EmailAccount.findAllByUserAndIsMaster(user,true).size() != 0){
-					throw new DomainViolationException('Cannot save. Only one master email allowed.')
-				}
+		confirmationCode unique: true, size: 52..52, blank: false // TODO: should use value from config
+		isMaster validator: { val , obj ->
+			if(val){
+				return obj.user.emails.grep { it.isMaster && it != obj	}.size() > 0 ? "onlyOneMasterAllowed" : true
 			}
 		}
+	}
+	
+	public void setEmail(String value){
+		email = value?.toLowerCase()
 	}
 
 }
