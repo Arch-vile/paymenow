@@ -69,7 +69,7 @@ fixture {
 		amount: 56, 
 		assignedTo: "john.doe@gmail.com",
 		description: "French fres and steaks",
-//		paid: Date.parse( "yyyy-M-d", "2013-02-20" ),
+		paid: Date.parse( "yyyy-M-d", "2013-02-20" ),
 		created: Date.parse( "yyyy-M-d", "2013-02-15" ) )
 	ZooTicketPayment(Payment,
 		amount: 112.56,
