@@ -9,7 +9,7 @@ fixture {
 		isMaster: false,
 		confirmationCode: "JohnPrivateMail2JohnPrivateMail2JohnPrivateMail2John")
 	JohnPrivateMail(EmailAccount,
-		email: "john.doe@gmail.com",
+		email: "JOHN.DOE@gmail.com",
 		isMaster: true,
 		confirmationCode: "JohnPrivateMailJohnPrivateMailJohnPrivateMailJohnPri",
 		confirmationDate: Date.parse( "yyyy-M-d", "2013-01-01" ))
@@ -19,7 +19,7 @@ fixture {
 		confirmationCode: "JohnSecondMailJohnSecondMailJohnSecondMailJohnSecond",
 		confirmationDate: Date.parse( "yyyy-M-d", "2013-01-01" ))
 	DoeFamilyMailJohn(EmailAccount,
-		email: "doe@fastmail.com",
+		email: "DOE@FASTMAIL.COM",
 		isMaster: false,
 		confirmationCode: "DoeFamilyMailJohnDoeFamilyMailJohnDoeFamilyMailJohnD",
 		confirmationDate: Date.parse( "yyyy-M-d", "2013-02-16" ))
