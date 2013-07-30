@@ -90,6 +90,14 @@ class EmailAccountTests {
 	}
 	
 	@Test
+	void emailSizeOneLong() {
+		email.email = "test@test.cooooooooooooooooooooooooooooooooooooooooooooooooooooooooooom"
+		assert !email.save()
+		assert 1 == email.errors.errorCount
+		assert "maxSize.exceeded"== email.errors.getFieldError("email").code
+	}
+	
+	@Test
 	void confirmationDateOptional() {
 		email.confirmationDate = null
 		assert email.save()

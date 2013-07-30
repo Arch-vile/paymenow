@@ -13,7 +13,7 @@ class EmailAccount {
 	Boolean isMaster
 	
     static constraints = {
-		email email:true, unique: ['user'], blank: false
+		email email:true, unique: ['user'], blank: false, maxSize: 70
 		confirmationDate nullable: true
 		confirmationCode unique: true, size: 52..52, blank: false // TODO: should use value from config
 		isMaster validator: { val , obj ->
