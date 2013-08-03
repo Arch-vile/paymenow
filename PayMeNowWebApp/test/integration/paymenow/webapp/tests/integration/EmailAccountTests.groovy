@@ -159,24 +159,28 @@ class EmailAccountTests {
 		assert "onlyOneMasterAllowed"== email.errors.getFieldError("isMaster").code
 	}
 	
-	
+	@Test
+	void oneMasterRequired() {
+		fixture.JohnPrivateMail.isMaster = false;
+		assert !fixture.JohnPrivateMail.save()
+		assert 1 == fixture.JohnPrivateMail.errors.errorCount
+		assert "oneMasterRequired"== fixture.JohnPrivateMail.errors.getFieldError("isMaster").code
 		
+		
+	}	
 	
-//	@Test
-//	void testFailIfMultipleMaster(){
-//		def john = User.findByLogin("johnDoe")
-//		def email1 = new EmailAccount(email: "johnnew@gmail.com", isMaster: true, confirmationCode: "dsadsadoi87657sardtk2ihgdtyusadiyosadhsakjkdsadsaddd")
-//		john.addToEmails(email1)
-//		
-//		try {
-//			email1.save(flush: true) // need to flush to cause error
-//			assert false
-//		}catch(DomainViolationException e){
-//			assert 'Cannot save. Only one master email allowed.' == e.message
-//		}
-//	}
-//	
-//	
+	@Test
+	void oneMasterRequiredDirty() {
+		
+		EmailAccount.withSession { session ->
+			email.isMaster = true
+			fixture.JohnPrivateMail.isMaster = false;
+			session.flush() // should fail
+		}
+		
+		assert false
+	}
+		
 	
 	
 }

@@ -17,8 +17,13 @@ class EmailAccount {
 		confirmationDate nullable: true
 		confirmationCode unique: true, size: 52..52, blank: false // TODO: should use value from config
 		isMaster validator: { val , obj ->
-			if(val){
-				return obj.user.emails.grep { it.isMaster && it != obj	}.size() > 0 ? "onlyOneMasterAllowed" : true
+			
+			if(obj.user){
+				if(val){
+					return obj.user.emails.grep { it.isMaster && it != obj	}.size() > 0 ? "onlyOneMasterAllowed" : true
+				} else {
+					return obj.user.emails.grep { it.isMaster }.size() != 1 ? "oneMasterRequired" : true
+				}
 			}
 		}
 	}
