@@ -7,24 +7,36 @@ import grails.plugin.fixtures.FixtureLoader
 import grails.test.mixin.*
 import org.junit.*
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+
 import paymenow.webapp.domain.*
 import paymenow.webapp.service.DomainService;
+import paymenow.webapp.test.BaseFixtureLoader
 import grails.buildtestdata.mixin.Build
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(DomainService)
-class DomainServiceUnitTests extends BaseFixtureTests {
+@Mock([EmailAccount, User, Invoice, Payment])
+class DomainServiceUnitTests  {
 
-//	def fixture['JohnPrivateMail']
-//	def fixture['JohnSecondMail']
-//	
-//	@Before
-//	void setUp(){
-//		fixture['JohnPrivateMail'] = EmailAccount.build(isMaster: true)
-//		fixture['JohnSecondMail'] = EmailAccount.build(isMaster: false, user: fixture['JohnPrivateMail'].user)
-//	}
 	
+	def fixture
+	
+	void setUp() {
+		fixture = new BaseFixtureLoader().load()	
+	}
+	
+	
+	@Test
+	void getInvoicesByOwner(){
+		assertThat(service.getInvoicesForUser(fixture['Jane']), 
+			containsInAnyOrder(
+				fixture['MarocTripInvoice'],
+				fixture['GolfInvoice']))
+	}
 	
 	@Test
     void switchMasterEmailHappyCase() {

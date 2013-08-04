@@ -5,8 +5,8 @@ import org.apache.commons.lang.Validate
 
 class DomainService {
 
-    def getInvoicesByOwner(listOfEmails){
-		return Invoice.findByOwnerInList(listOfEmails)
+    def getInvoicesForUser(user){
+		return Invoice.findAllByOwnerInList(user.emails.email)
 	}
 	
 	def findUser(userLogin){

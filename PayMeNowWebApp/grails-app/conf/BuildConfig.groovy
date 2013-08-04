@@ -48,6 +48,7 @@ grails.project.dependency.resolution = {
 		// To fix problem with grails 2.2.0 and cobertura plugin
 		// http://jira.grails.org/browse/GPCODECOVERAGE-50
 		test 'net.sourceforge.cobertura:cobertura:1.9.4.1'
+		test 'org.hamcrest:hamcrest-all:1.3'
     }
 
     plugins {

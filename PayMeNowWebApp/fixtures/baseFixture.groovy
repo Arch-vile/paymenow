@@ -3,6 +3,10 @@ import paymenow.webapp.domain.*
 
 fixture {
 
+	/* Should not be used anymore as I could not get fixture plugin to
+	  work on unit test. Instead extend the basefixture test class.
+	
+	
 	// John's emails
 	JohnPrivateMail2(EmailAccount,
 		email: "john@myhost.com",
@@ -106,5 +110,5 @@ fixture {
 		description: "The bills for the Maroc trip",
 		owner: "jane@gmail.com",
 		payments: [MarocFlightsPaymentLudvig, MarocFlightsPaymentEron, MarocFlightsPaymentRick])
-	
+	*/
 }

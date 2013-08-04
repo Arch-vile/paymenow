@@ -6,42 +6,16 @@ import paymenow.webapp.domain.EmailAccount
 
 
 class DomainServiceTests {
-	
-	def fixtureLoader
-	def fixture
-	def domainService
-	
-    @Before
-    void setUp() {
-		fixture = fixtureLoader.load("baseFixture")
-    }
 
-    @After
-    void tearDown() {
-        // Tear down logic here
-    }
-	
-	@Test
-	void happyCase() {
+	def domainService
+
+	@Before
+	void setUp() {
 		
 	}
-	
-	@Test
-	void getInvoicesByOwner(){
-		assert false
+
+	@After
+	void tearDown() {
+		// Tear down logic here
 	}
-	
-	@Test
-	void findUser(){
-		assert false
-	}
-	
-	@Test
-	void findEmailAccount(){
-		assert false
-	}
-	
-	
-	
-	
 }
