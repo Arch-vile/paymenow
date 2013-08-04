@@ -14,50 +14,49 @@ import grails.buildtestdata.mixin.Build
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(DomainService)
-@Build([EmailAccount, User])
-class DomainServiceUnitTests {
+class DomainServiceUnitTests extends BaseFixtureTests {
 
-	def oldMaster
-	def newMaster
-	
-	@Before
-	void setUp(){
-		oldMaster = EmailAccount.build(isMaster: true)
-		newMaster = EmailAccount.build(isMaster: false, user: oldMaster.user)
-	}
+//	def fixture['JohnPrivateMail']
+//	def fixture['JohnSecondMail']
+//	
+//	@Before
+//	void setUp(){
+//		fixture['JohnPrivateMail'] = EmailAccount.build(isMaster: true)
+//		fixture['JohnSecondMail'] = EmailAccount.build(isMaster: false, user: fixture['JohnPrivateMail'].user)
+//	}
 	
 	
 	@Test
     void switchMasterEmailHappyCase() {
-		assert newMaster.confirmationDate != null
-		assert oldMaster.confirmationDate != null
-		service.switchMasterEmail(oldMaster, newMaster)
-		assert !oldMaster.isMaster
-		assert newMaster.isMaster
+		assert fixture['JohnPrivateMail'].isMaster == true
+		assert fixture['JohnSecondMail'].isMaster == false
+		service.switchMasterEmail(fixture['JohnPrivateMail'], fixture['JohnSecondMail'])
+		assert fixture['JohnPrivateMail'].isMaster == false
+		assert fixture['JohnSecondMail'].isMaster == true
     }
 	
 	@Test
 	void switchMasterEmailRequiresOriginalMaster() {
 		assert shouldFail(IllegalArgumentException) {
-			oldMaster.isMaster = false
-			service.switchMasterEmail(oldMaster, newMaster)
+			fixture['JohnPrivateMail'].isMaster = false
+			service.switchMasterEmail(fixture['JohnPrivateMail'], fixture['JohnSecondMail'])
 		} == "Old master must be master"
 	}
 	
 	@Test
 	void switchMasterEmailRequiresNonMaster() {
 		assert shouldFail(IllegalArgumentException) {
-			newMaster.isMaster = true
-			service.switchMasterEmail(oldMaster, newMaster)
+			fixture['JohnSecondMail'].isMaster = true
+			service.switchMasterEmail(fixture['JohnPrivateMail'], fixture['JohnSecondMail'])
 		} == "New master must not be master"
 	}
 	
 	@Test
 	void switchMasterEmailRequiresCorrectMasters() {
 		shouldFail(IllegalArgumentException) {
-			oldMaster.isMaster = false
-			newMaster.isMaster = true
-			service.switchMasterEmail(oldMaster, newMaster)
+			fixture['JohnPrivateMail'].isMaster = false
+			fixture['JohnSecondMail'].isMaster = true
+			service.switchMasterEmail(fixture['JohnPrivateMail'], fixture['JohnSecondMail'])
 		}
 	}
 	
@@ -65,24 +64,23 @@ class DomainServiceUnitTests {
 	@Test
 	void emailMasterSwitchRequiresConfirmedOld(){
 		assert shouldFail(IllegalArgumentException) {
-			oldMaster.confirmationDate = null
-			service.switchMasterEmail(oldMaster, newMaster)
+			fixture['JohnPrivateMail'].confirmationDate = null
+			service.switchMasterEmail(fixture['JohnPrivateMail'], fixture['JohnSecondMail'])
 		} == "Old master must be confirmed"
 	}
 	
 	@Test
 	void emailMasterSwitchRequiresConfirmedNew(){
 		assert shouldFail(IllegalArgumentException) {
-			newMaster.confirmationDate = null
-			service.switchMasterEmail(oldMaster, newMaster)
+			fixture['JohnSecondMail'].confirmationDate = null
+			service.switchMasterEmail(fixture['JohnPrivateMail'], fixture['JohnSecondMail'])
 		} == "New master must be confirmed"
 	}
 
 	@Test
 	void emailMasterSwitchOnlyForSameUser(){
 		assert shouldFail(IllegalArgumentException) {
-			newMaster.user = User.build()
-			service.switchMasterEmail(oldMaster, newMaster)
+			service.switchMasterEmail(fixture['JohnPrivateMail'], fixture['DoeFamilyMailJane'])
 		} == "Emails must belong to same user"
 	}
 	

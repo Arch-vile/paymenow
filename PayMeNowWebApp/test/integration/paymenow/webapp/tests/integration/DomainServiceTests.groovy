@@ -27,13 +27,17 @@ class DomainServiceTests {
 	}
 	
 	@Test
-	void findUserCaseInsensitive(){
+	void getInvoicesByOwner(){
 		assert false
 	}
 	
 	@Test
-	void findEmailCaseInsensitive(){
-		def user = domainService.findUser("johnDoe")
+	void findUser(){
+		assert false
+	}
+	
+	@Test
+	void findEmailAccount(){
 		assert false
 	}
 	
