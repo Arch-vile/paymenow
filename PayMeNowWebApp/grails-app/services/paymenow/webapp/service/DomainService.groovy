@@ -9,14 +9,6 @@ class DomainService {
 		return Invoice.findAllByOwnerInList(user.emails.email)
 	}
 	
-	def findUser(userLogin){
-		return User.findByLogin(userLogin) // TODO: force lowercase
-	}
-	
-	def findEmailAccount(email, user){
-		return EmailAccount.findByEmailAndUser(email.toLowerCase(), user)
-	}
-	
 	// TODO: test that this is transactional by giving oldmail an invalid email address and make sure newmail->false is not persisted.
 	// you cannot test that in integration test as they are transactional themselves and thus will be rolled back only later
 	// cannot think of better way then just some temporary hack test

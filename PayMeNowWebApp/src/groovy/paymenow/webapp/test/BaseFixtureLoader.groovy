@@ -9,8 +9,14 @@ class BaseFixtureLoader {
 
 	def fixture = [:]
 
-	def load() {
+	// Some helper data
+	def sampleVerificationCode = 'jdue830djsdkj39djsdj39fjfk30jfksd03jtj309jgfk03kjd23'
+	def anotherVerificationCode = 'jj9hjasd8njasdlkvgadj7305l958jdhdd9idjdjdhjbdgeudhds'
 
+
+	
+	def load() {
+		
 		// Users
 		fixture['John'] = new User( login: "johnDoe")
 		fixture['Jane'] = new User( login: "janeDoe")
