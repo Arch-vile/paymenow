@@ -1,0 +1,7 @@
+PMN-1: Pending login confirmation must invalidate after certain time
+- One should not be able to reserve an email address that do not belong to him for ever by not being able to confirm it.
+- See PMN-2 and PMN-3
+
+PMN-2: Login confirmation mail must include a link to cancel account creation.
+
+PMN-3: For unconfirmed logins one must be able to reorder the confirmation email

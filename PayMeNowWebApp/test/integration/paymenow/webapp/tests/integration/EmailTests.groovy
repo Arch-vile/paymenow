@@ -1,7 +1,10 @@
 package paymenow.webapp.tests.integration
 
 import static org.junit.Assert.*
+import com.grailsrocks.authentication.AuthenticationUser
+import com.grailsrocks.authentication.AuthenticationService
 import org.junit.*
+import paymenow.webapp.domain.User
 
 class EmailTests {
 
@@ -17,7 +20,7 @@ class EmailTests {
 	
 	@Test
 	void testPass(){
-		assert true
+		
 	}
 	
 /*	@Test

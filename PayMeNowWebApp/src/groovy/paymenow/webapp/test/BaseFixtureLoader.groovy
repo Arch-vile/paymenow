@@ -1,5 +1,7 @@
 package paymenow.webapp.test
 
+import com.grailsrocks.authentication.AuthenticationUser
+import com.grailsrocks.authentication.AuthenticationService
 import paymenow.webapp.domain.EmailAccount
 import paymenow.webapp.domain.Invoice
 import paymenow.webapp.domain.Payment
@@ -17,12 +19,44 @@ class BaseFixtureLoader {
 	
 	def load() {
 		
+		
+		
+		// Authentication users
+		fixture['JohnAuth'] = new AuthenticationUser(
+			login: "john.doe@gmail.com",
+			password: "idue873jkdks",
+			email: "john.doe@gmail.com",
+			status: AuthenticationService.STATUS_VALID)
+		
+		fixture['JaneAuth'] = new AuthenticationUser(
+			login: "jane@gmail.com",
+			password: "kd8e0dj2jdns",
+			email: "jane@gmail.com",
+			status: AuthenticationService.STATUS_VALID)
+		fixture['LudvigTheThirdAuth'] = new AuthenticationUser(
+			login: "ludvig@hotmail.com",
+			password: "99464745h79e",
+			email: "ludvig@hotmail.com",
+			status: AuthenticationService.STATUS_VALID)
+		fixture['EronAuth'] = new AuthenticationUser(
+			login: "eron23@gmail.com",
+			password: "9867ohud8dse",
+			email: "eron23@gmail.com",
+			status: AuthenticationService.STATUS_AWAITING_CONFIRMATION)
+		fixture['IlonaAuth'] = new AuthenticationUser(
+			login: "ilona@hotmail.com",
+			password: "czxdwek9djse",
+			email: "ilona@hotmail.com",
+			status: AuthenticationService.STATUS_AWAITING_CONFIRMATION)
+		
+		
+		
 		// Users
-		fixture['John'] = new User( login: "johnDoe")
-		fixture['Jane'] = new User( login: "janeDoe")
-		fixture['LudvigTheThird'] = new User( login: "ludvig")
-		fixture['Eron'] = new User( login: "eronrentle")
-		fixture['Ilona'] = new User( login: "ilona")
+		fixture['John'] = new User( authUser: fixture['JohnAuth'])
+		fixture['Jane'] = new User( authUser: fixture['JaneAuth'])
+		fixture['LudvigTheThird'] = new User( authUser: fixture['LudvigTheThirdAuth'])
+		fixture['Eron'] = new User( authUser: fixture['EronAuth'])
+		fixture['Ilona'] = new User( authUser: fixture['IlonaAuth'])
 
 		// John's emails
 		fixture['JohnPrivateMail2'] = new EmailAccount(
@@ -147,7 +181,14 @@ class BaseFixtureLoader {
 				created: Date.parse( "yyyy-M-d", "2012-08-09" ) )
 		fixture['MarocTripInvoice'].addToPayments(fixture['MarocFlightsPaymentRick'])
 
-		fixture.each { key, value ->  value.save(failOnError: true)}
+		def myService = new AuthenticationService()
+		myService.metaClass.checkLogin { login -> return true }
+		
+		fixture.each { key, value ->  
+			if(value instanceof AuthenticationUser)
+				value.authenticationService = myService;
+			value.save(failOnError: true)
+			}
 
 		return fixture
 	}
