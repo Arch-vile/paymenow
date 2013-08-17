@@ -18,4 +18,9 @@ class DomainServiceTests {
 	void tearDown() {
 		// Tear down logic here
 	}
+	
+	@Test
+	void happyCase(){
+		
+	}
 }

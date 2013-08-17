@@ -6,11 +6,10 @@ import com.grailsrocks.authentication.AuthenticationService;
 import com.grailsrocks.authentication.AuthenticationUser
 import org.junit.*
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.*
+import static paymenow.webapp.matchers.HasErrors.*
 
-
-import paymenow.webapp.domain.EmailAccount
 import paymenow.webapp.domain.User
 
 class UserTests {
@@ -28,9 +27,18 @@ class UserTests {
 			status: AuthenticationService.STATUS_NEW).save()
 		User john = new User(authUser: auth).save()
 		User jane = new User(authUser: auth)
-		jane.save()
-		assertThat(jane.errors.errorCount, equalTo(1))
-		assertThat(jane.errors.getFieldError("authUser").code, equalTo("unique"))
+		
+		assertThat(jane, domainWithErrors(authUser: "unique"))
 	}
+	
+	
+	// TODO: this must be tested somewhere
+	@Test
+	void deletingAuthenticationUser(){
+		fixture.LudvigTheThirdAuth.delete(flush: true, failOnError: true)
+	}
+	
+	
+	
 	
 }

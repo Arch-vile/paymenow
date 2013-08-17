@@ -11,12 +11,12 @@ import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.*
 import static paymenow.webapp.matchers.HasErrors.*
 
-import paymenow.webapp.domain.*
+import paymenow.webapp.domain.BankAccount
+import paymenow.webapp.domain.User
 import paymenow.webapp.test.BaseFixtureLoader
 
-class EmailAccountTests {
-	
-	
+class BankAccountTests {
+
 	def grailsApplication
 	def baseFixtureLoader = new BaseFixtureLoader()
 	def fixture
@@ -25,23 +25,27 @@ class EmailAccountTests {
 	void setUp() {
 		fixture = baseFixtureLoader.load(grailsApplication)
 	}
-    @After
-    void tearDown() {
-        // Tear down logic here
-    }
+	
 	
 	@Test
 	void happyCase(){
+		assertThat(BankAccount.findByAccountNmbr("FI11111"),
+			not(nullValue()));
+	}
+	
+	/**
+	 * Cascading actions do not work on unit tests
+	 */
+	@Test
+	void belongsToUser(){
+		def ba = BankAccount.findByAccountNmbr(fixture.LudvigTheThird.bankAccounts.toArray()[0].accountNmbr)
+		fixture.LudvigTheThird.delete(flush: true, failOnError: true)
+		assertThat(BankAccount.findByAccountNmbr(ba.accountNmbr),
+			nullValue())
 		
 	}
 	
-	@Test
-	void belongsToUser(){
-		def email = EmailAccount.findByConfirmationCode(fixture.John.emails.toArray()[0].confirmationCode)
-		fixture.John.delete(flush: true)
-		assertThat(EmailAccount.findByConfirmationCode(email.confirmationCode),
-			nullValue())
-	}
+	
 	
 	
 }

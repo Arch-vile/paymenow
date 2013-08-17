@@ -6,6 +6,8 @@ import com.grailsrocks.authentication.LoginForm
 
 import grails.validation.ValidationException
 import grails.util.GrailsUtil
+
+import org.apache.commons.validator.EmailValidator;
 import org.codehaus.groovy.grails.web.util.WebUtils
 
 import paymenow.webapp.domain.EmailAccount;
@@ -85,8 +87,7 @@ class UserManagementService {
 	
 
 	def validateLoginIdFormat(loginID){
-		def result = loginID ==~ /[a-zA-Z0-9_]*/
-		return result
+		return EmailValidator.getInstance().isValid(loginID)
 	}
 	
 	def getUser(){
