@@ -44,27 +44,6 @@ class BankAccountUnitTests {
 	}
 	
 	@Test
-	void belongsToUser(){
-		def myService = new AuthenticationService()
-		myService.metaClass.checkLogin { login -> return true }
-		AuthenticationUser auth = new AuthenticationUser(
-			login: "johndoe",
-			password: "idue873jkdks",
-			email: "john.doe@gmail.com",
-			status: AuthenticationService.STATUS_VALID)
-		auth.authenticationService = myService
-		auth.save(failOnError: true)
-		User user = new User(authUser: auth)
-		BankAccount ba = new BankAccount(accountNmbr: "jdjdjdjdd" )
-		user.addToBankAccounts(ba)
-		user.save(failOnError: true)
-		user.delete(flush: true)
-		assert User.findByAuthUser(auth) == null
-		assert BankAccount.findByAccountNmbr("jdjdjdjdd") == null
-		
-	}
-	
-	@Test
 	void hasAccountNmbr(){
 		BankAccount ba = new BankAccount( )
 		fixture.LudvigTheThird.addToBankAccounts(ba)

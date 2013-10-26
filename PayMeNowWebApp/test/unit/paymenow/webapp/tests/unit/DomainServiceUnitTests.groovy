@@ -15,11 +15,13 @@ import paymenow.webapp.domain.*
 import paymenow.webapp.service.DomainService;
 import paymenow.webapp.test.BaseFixtureLoader
 import grails.buildtestdata.mixin.Build
+
+import com.grailsrocks.authentication.AuthenticationUser
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(DomainService)
-@Mock([EmailAccount, User, Invoice, Payment])
+@Mock([EmailAccount, User, Invoice, Payment, User, AuthenticationUser, BankAccount])
 class DomainServiceUnitTests  {
 
 	

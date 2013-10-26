@@ -1,9 +1,11 @@
-package paymenow.webapp.domain
+package paymenow.webapp.tests.unit
 
 
 
 import grails.test.mixin.*
 import org.junit.*
+
+import paymenow.webapp.domain.DummyDomain;
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
@@ -12,6 +14,6 @@ import org.junit.*
 class DummyDomainTests {
 
     void testSomething() {
-       fail "Implement me"
+       
     }
 }
